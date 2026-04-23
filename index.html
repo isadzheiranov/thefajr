@@ -101,6 +101,14 @@ strong{color:var(--text);font-weight:700}em{color:var(--text-muted)}
 .sticky-cta .cta-btn{padding:12px 28px;font-size:.95rem}
 .sticky-cta .sticky-price{font-family:var(--font-display);font-weight:900;color:var(--gold);font-size:1.3rem}
 @media(max-width:600px){.sticky-cta{flex-direction:column;gap:8px;padding:10px 16px}.sticky-cta .cta-btn{width:100%;padding:14px 20px}}
+
+.site-footer{background:var(--bg-warm);border-top:1px solid var(--border);padding:40px 0 100px;font-size:.78rem;color:var(--text-muted);line-height:1.7}
+.site-footer a{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--border)}
+.site-footer a:hover{border-color:var(--gold)}
+.footer-grid{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.footer-col{flex:1;min-width:200px}
+.footer-col p{margin-bottom:6px;font-size:.78rem}
+.footer-col strong{color:var(--text-body);font-size:.82rem}
 </style>
 </head>
 <body>
@@ -437,23 +445,48 @@ window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHei
 const cO=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting){const el=e.target,t=parseInt(el.dataset.count),s=el.dataset.suffix||'',p=el.dataset.prefix||'',d=1600,st=performance.now(),a=n=>{const pr=Math.min((n-st)/d,1),v=Math.floor((1-Math.pow(1-pr,3))*t);el.textContent=p+v.toLocaleString('en-US')+s;pr<1&&requestAnimationFrame(a);};requestAnimationFrame(a);cO.unobserve(el);}});},{threshold:.5});
 document.querySelectorAll('[data-count]').forEach(el=>cO.observe(el));
 
-// Sticky CTA - appears at "Two futures", hides on scroll up past it
+// Sticky CTA - appears at "Two futures", hides at footer
 const stickyCta = document.getElementById('stickyCta');
 const trigger = document.getElementById('triggerSticky');
+const footer = document.getElementById('siteFooter');
 if (stickyCta && trigger) {
-  let lastScroll = 0;
-  const triggerTop = () => trigger.getBoundingClientRect().top + window.scrollY;
   window.addEventListener('scroll', () => {
     const currentScroll = window.scrollY;
-    const tTop = triggerTop();
-    if (currentScroll > tTop - window.innerHeight * 0.5) {
+    const tTop = trigger.getBoundingClientRect().top + window.scrollY;
+    const footerTop = footer ? footer.getBoundingClientRect().top : 99999;
+    if (currentScroll > tTop - window.innerHeight * 0.5 && footerTop > window.innerHeight) {
       stickyCta.classList.add('visible');
     } else {
       stickyCta.classList.remove('visible');
     }
-    lastScroll = currentScroll;
   }, {passive: true});
 }
 </script>
+
+<footer class="site-footer" id="siteFooter">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-col">
+<strong>Contact</strong>
+<p>Isa Dzheiranov</p>
+<p>Telegram: <a href="https://t.me/isadzheiranov" target="_blank">@isadzheiranov</a></p>
+<p>Email: isadzheiranov@gmail.com</p>
+</div>
+<div class="footer-col">
+<strong>Legal</strong>
+<p><a href="terms.html" target="_blank">Terms of Service & Offer Agreement</a></p>
+<p><a href="terms.html#refund" target="_blank">Refund Policy</a></p>
+<p><a href="terms.html#privacy" target="_blank">Privacy Policy</a></p>
+</div>
+<div class="footer-col">
+<strong>Product</strong>
+<p>«The Barakah Hour» — digital book (PDF)</p>
+<p>Price: $19 (launch price)</p>
+<p>Delivery: instant after payment</p>
+</div>
+</div>
+<p style="margin-top:24px;text-align:center;font-size:.72rem">© 2025 Isa Dzheiranov. All rights reserved.</p>
+</div>
+</footer>
 </body>
 </html>
